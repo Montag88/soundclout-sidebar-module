@@ -109,7 +109,7 @@ class App extends React.Component {
 
     render () {
         return (
-            <div>
+            <div className='relatedTrackBlockContainer'>
             <div className='relatedTracksBlock'>
                 <div className='header'>
                     <div className='iconWords'>

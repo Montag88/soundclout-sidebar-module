@@ -1,3 +1,16 @@
+/*body*/
+
+/* #Sidebar{
+    position: absolute;
+    
+    top: 393px;
+    right: 1.5%;
+    
+    width: 300px;
+    height: 500px
+} */
+
+
 /*related tracks block*/
 
 .relatedTracksBlock {
@@ -70,6 +83,7 @@
 }
 
 .relatedTracksContainer {
+    list-style: none;
     width: 300px;
     height: 219.58px;
     padding: 0px;
