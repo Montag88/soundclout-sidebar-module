@@ -1,0 +1,673 @@
+/*related tracks block*/
+
+.relatedTracksBlock {
+    width: 300px;
+    height: 255.58px;
+    margin-bottom:30px;
+
+
+}
+
+.iconWords {
+    float: left;
+    width: 114.67px;
+    height: 24px;
+    margin-top: 3px;
+}
+
+.trackIcon {
+    float: left;
+    width: 21px;
+    height: 24px;
+    padding-right: 2px;
+    margin-left: -5px;
+}
+
+.waveformImage {
+    width: 21px;
+    height: 18px;
+
+    margin-bottom: 1px;
+    box-sizing: border-box;
+}
+
+.relatedTracksWritten {
+    width: 89.67px;
+    height: 24px;
+    float: left;
+    font-size: 13px;
+    padding-top: 6px;
+    font-family: "Interstate","Lucida Grande","Lucida Sans Unicode","Lucida Sans",Garuda,Verdana,Tahoma,sans-serif;
+    font-weight: 400;
+    line-height: 1.3;
+    margin-left: 3px;
+    padding-left: 3px;
+    color: #999;
+
+}
+
+.tracksViewall {
+    float: right;
+    width: 48.41px;
+    height: 18px;
+    font-size: 13px;
+    margin-top: 8.5px;
+    font-family: "Interstate","Lucida Grande","Lucida Sans Unicode","Lucida Sans",Garuda,Verdana,Tahoma,sans-serif;
+    font-weight: 400;
+    line-height: 1.3;
+    color: #999;
+
+}
+
+.header:hover .tracksViewall {
+    color: black;
+}
+
+.relatedTracksContainerWithPad {
+    width: 300px;
+    height: 224.56px;
+    padding-top: 5px;
+}
+
+.relatedTracksContainer {
+    width: 300px;
+    height: 219.58px;
+    padding: 0px;
+    margin: 0px;
+}
+
+.singleTrackContainer {
+    width: 300px;
+    height: 73.19px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    box-sizing: border-box;
+}
+
+.singleTrackInformation {
+    width: 300px;
+    height: 63.19px;
+}
+
+.relatedTrackPicHolder {
+    display: block;
+    width: 55px;
+    height: 60px;
+    border-right: 1px;
+    padding-top: 5px;
+    float: left;
+    box-sizing: border-box;
+}
+
+.rtImageBox {
+    display: block;
+    position: relative;
+    width: 50px;
+    height: 50px;
+    box-sizing: border-box;
+}
+
+.rtImageOverlay {
+    position: absolute;
+    pointer-events: none;
+    top: 10px;
+    left: 10px;
+    opacity: 0;
+
+}
+
+.rtPauseImageOverlay {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    opacity: 0;
+}
+
+.singleTrackContainer:hover .rtImageOverlay {
+    opacity: 0.4;
+}
+
+/* .singleTrackContainer:active .rtImageOverlay {
+
+    opacity: 0;
+}
+
+.singleTrackContainer:active .rtPauseImageOverlay {
+
+    opacity: 0.4;
+} */
+
+.trackArtistSongInfo {
+    width: 240px;
+    height: 59.19px;
+    float: right;
+    margin-top: 5px;
+    box-sizing: border-box;
+}
+
+.relatedArtistNameBox {
+    display: block;
+    width: 235px;
+    height: 18px;
+    box-sizing: border-box;
+}
+.relatedArtistName {
+    display: block;
+    width: 46px;
+    height: 16px;
+    font-family: "Interstate","Lucida Grande","Lucida Sans Unicode","Lucida Sans",Garuda,Verdana,Tahoma,sans-serif;
+    font-weight: 400;
+    line-height: 1.3;
+    font-size: 14px;
+    color: #999;
+}
+
+.notch {
+    display: block;
+    width: 15px;
+    height: 15px;
+    border-top: 1px solid #D3D3D3;
+    border-left: 1px solid #D3D3D3;
+    margin-left: 13.5px;
+    transform: rotate(45deg);
+    background: white;
+    opacity: 1;
+    position: relative;
+    z-index: 2;
+    box-sizing: border-box;
+}
+
+.relatedNameIconHover{
+    display: block;
+    background: white;
+    width: 130px;
+    height: 200px;
+    opacity: 1;
+    position: fixed;
+    z-index: 1;
+    border: 1px solid #D3D3D3;
+    border-radius: 4px;
+    margin-left: -43px;
+    margin-top: -8px;
+    box-sizing: border-box;
+}
+
+.relatedSongNameBox {
+    display: block;
+    position: relative;
+    width: 235px;
+    height: 18px;
+    box-sizing: border-box;
+}
+
+.relatedSongName {
+    display: inline-block;
+    width: 200px;
+    height: 15px;
+    font-size: 14px;
+    margin-right: 0px;
+    box-sizing: border-box;
+    color: #505050;
+    font-family: "Interstate","Lucida Grande","Lucida Sans Unicode","Lucida Sans",Garuda,Verdana,Tahoma,sans-serif;
+    font-weight: 400;
+    line-height: 1.3;
+
+}
+
+.relatedMenuOptions {
+    position: absolute;
+    display: block;
+    top: -8px;
+    left: 170px;
+    width: 60px;
+    height: 25px;
+    box-sizing: border-box;
+    opacity: 0;
+}
+
+.singleTrackContainer:hover .relatedMenuOptions {
+    opacity: 1;
+}
+
+.likeRelatedSong {
+    display: inline-block;
+    position: relative;
+    width: 25px;
+    height: 23px;
+    border: 1px solid#F0F0F0;
+    border-radius: 4px;
+    margin-right: 4px;
+    margin-top: 2px;
+    box-sizing: border-box;
+}
+
+.relatedDropDownMenu {
+    display: inline-block;
+    position: relative;
+    width: 25px;
+    height: 23px;
+    margin-top: 2px;
+    border: 1px solid #F0F0F0;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.relatedDropDownMenuIcon{
+    display: block;
+    background: white;
+    width: 180px;
+    opacity: 1;
+    z-index: 1;
+    /* height: 200px; */
+    position: fixed;
+    /* border: 2px solid #F0F0F0; */
+    /* border-left: 2px solid #F0F0F0; */
+    margin-left: -100px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+.dropDownItemContainer{
+    display: block;
+    width: 180px;
+    height: 40px;
+    background: white;
+    /* width: 160px; */
+    opacity: 1;
+    z-index: 1;
+
+    /* position: absolute; */
+    /* display: inline-block; */
+    /* margin-left: -1px; */
+    border-top: 1px solid #E8E8E8;
+    border-right: 1px solid #E8E8E8;
+    border-left: 1px solid #E8E8E8;
+    /* border-bottom: 1px solid #E8E8E8; */
+    box-sizing: border-box;
+}
+
+.lastContainer {
+    border-bottom: 1px solid #E8E8E8;
+}
+
+.dropDownItemImage {
+    display: inline-block;
+    position: relative;
+    vertical-align: super;
+    margin-top: 12px;
+    margin-left: 9px;
+    box-sizing: border-box;
+}
+
+.dropDownImage {
+
+    display: inline-block;
+    /* position: relative; */
+    /* margin-top:2px; */
+    
+    box-sizing: border-box;
+
+}
+
+.dropDownWritten {
+    display: inline-block;
+    float: right;
+    width: 120px;
+    height: 12px;
+    text-align: left;
+    position: relative;
+    /* height: 40px; */
+    margin-top: 13px;
+    margin-right: 15px;
+    font: 12px/1.4 "Lucida Grande","Lucida Sans Unicode","Lucida Sans",Garuda,Verdana,Tahoma,sans-serif;
+    color: #333;
+    vertical-align: middle;
+    box-sizing: border-box;
+}
+
+.addToNextUp {
+    display: block;
+    /* padding-right: 2px; */
+    margin-left: 7px;
+    box-sizing: border-box;
+
+}
+
+.addToPlaylist {
+    display: inline-block;
+    padding-left: 2px;
+    box-sizing: border-box;
+}
+
+.dropDownItemImage {
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+}
+
+.likeRelatedSongBlackHeart{
+    position: relative;
+    top: 3px;
+    left: 5.45px;
+    
+}
+
+.menuRelatedSongImage {
+    position: relative;
+    top: 3px;
+    left: 4.3px;
+}
+
+
+.dropDownMenu {
+    display: inline-block;
+    position: relative;
+    top: 10px;
+    left: 10px;
+    width: 25;
+    height: 30px;
+    box-sizing: border-box;
+}
+
+.relatedTrackIconList {
+    width: 240px;
+    height: 22px;
+    padding: 0px;
+    margin-bottom: 1px;
+    list-style: none;
+    box-sizing: border-box;
+}
+
+.relatedlist {
+    font-size: 14px;
+    width: 56px;
+    height: 22px;
+    display: inline-block
+
+}
+
+.relatedPlayContainer {
+    display: block;
+    width: 48px;
+    height: 18px;
+    margin-top: 2px;
+}
+
+.relatedPlayIcon {
+    float:left;
+    width: 16px;
+    height: 17px;
+    margin-top: 1px;
+}
+
+.relatedTimesPlayed {
+    float:right;
+    width: 30px;
+    height: 17px;
+    margin-top: 1px;
+}
+
+.relatedPlayContainerInserts {
+    font-size: 12px;
+    color: #999;
+    /* width: 30px;
+    height: 12px; */
+    padding-top: 1px;
+    box-sizing: border-box;
+}
+
+
+.relatedLikesContainer {
+    display: block;
+    width: 48px;
+    height: 13px;
+    margin-top: 3px;
+}
+
+.relatedLikesIcon {
+    float:left;
+    width: 16px;
+    height: 12px;
+}
+
+.relatedLikes {
+    float:right;
+    width: 30px;
+    height: 12px;
+}
+
+
+.relatedRepostsContainer {
+    display: block;
+    width: 48px;
+    height: 13px;
+    margin-top: 2px;
+}
+
+.relatedRepostsIcon {
+    float:left;
+    width: 16px;
+    height: 12px;
+}
+
+.relatedReposts {
+    float:right;
+    width: 30px;
+    height: 12px;
+}
+
+.relatedcommentsContainer {
+    display: block;
+    width: 48px;
+    height: 13px;
+    margin-top: 2px;
+}
+
+.relatedCommentsIcon {
+    float:left;
+    width: 16px;
+    height: 12px;
+}
+
+.relatedComments {
+    float:right;
+    width: 30px;
+    height: 12px;
+}
+
+
+/*like block*/
+.likeBlock {
+    display: block;
+    width: 300px;
+    height: 96px;
+    /* border: 2px solid black; */
+    margin-bottom: 20px;
+}
+.header {
+    width: 300px;
+    height:31px;
+    border-bottom: 1px solid #f2f2f2
+
+}
+
+.likeHeader {
+    cursor: pointer;
+}
+
+
+
+.viewAllLikes {
+    float: right;
+    line-height: 24px;
+    font-weight: 100;
+    color: #999;
+    font-family: "Interstate","Lucida Grande","Lucida Sans Unicode","Lucida Sans",Garuda,Verdana,Tahoma,sans-serif;
+    font-weight: 400;
+    line-height: 1.3;
+    font-size: 13px;
+    margin-top: 4.5px;
+}
+
+.likeHeader:hover .viewAllLikes {
+    color: black;
+}
+
+
+.likeContainer {
+    display: block;
+    width:300px;
+    height:65px;
+    /* padding-top: 31px; */
+}
+
+.profilePicture {
+    list-style: none;
+    padding-left: 9px;
+    padding-top: 5px;
+    /* padding-right: 10px; */
+    
+    width: 290px;
+    height: 40px;
+    cursor: pointer;
+}
+
+.pppics {
+    display: inline;
+
+    margin-left: -8px;
+    position: relative;
+
+
+}
+.roundImage {
+    position: relative;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    border: 2px solid white;
+    /*account for border in pixel size to keep image true at 40px*/
+    box-sizing: border-box;
+
+    /* background-origin: border-box; */
+
+}
+
+.followHover {
+    
+    height: 90px;
+    width: 90px;
+    border-radius: 50%;
+    display: block;
+    margin: auto;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.followButton {
+    cursor: pointer;
+    text-decoration-color: black;
+    height: 22px;
+    border-radius: 5px;
+    margin: auto;
+    display: block;
+    
+}
+
+.followerName {
+    color: #505050;
+    padding-bottom: 3px;
+    font-family: "Interstate","Lucida Grande","Lucida Sans Unicode","Lucida Sans",Garuda,Verdana,Tahoma,sans-serif;
+    font-weight: 400;
+    line-height: 1.3;
+    font-size: 13px;
+    display: block;
+    margin: auto;
+    box-sizing: border-box;
+
+}
+
+.relatedFollowerName{
+    text-align: center;
+    padding: auto;
+}
+
+.followerName:hover {
+    color: black;
+}
+
+.followerNumber {
+    display: block;
+    color: #999;
+    padding-bottom: 3px;
+    display: block;
+    margin: auto;
+    box-sizing: border-box;
+    text-align: center;
+    /* width: 5px;
+    height: 5px; */
+}
+
+.followerLocation {
+    display: block;
+    margin: auto;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.followerNumber:hover {
+    color: black;
+}
+
+.card {
+  box-sizing: border-box;
+  height: 170px;
+  width: 100%;
+  font-size: 14px;
+  text-align: center;
+  
+
+
+}
+
+.heart {
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    vertical-align: bottom;
+    padding-right: 2px;
+    padding-top: 2px;
+    box-sizing: border-box;
+}
+
+.likeNumber{
+    /* line-height: 24px; */
+    display: inline-block;
+    color: #999;
+    font-family: "Interstate","Lucida Grande","Lucida Sans Unicode","Lucida Sans",Garuda,Verdana,Tahoma,sans-serif;
+    font-weight: 400;
+    /* line-height: 1.3; */
+    font-size: 13px;
+    padding-left: 2px;
+    vertical-align: middle;
+    
+}
+
+.heartLikeBundle {
+    display: inline-block;
+    height: 23px;
+    width: 90px;
+
+}
+
+.svgFollowersImage {
+    display: inline-block;
+    width: 14px;
+    height: 16px;
+    padding-left: 2px;
+    box-sizing: border-box;
+    
+}
+
