@@ -21,7 +21,7 @@ class App extends React.Component {
     }
 
     componentDidMount () {
-        axios.get('http://localhost:3131/userinfo')
+        axios.get('/userinfo')
             .then( (data) => {
                 var array = [];
                 for(var i = 0; i<=8; i++){
@@ -33,7 +33,7 @@ class App extends React.Component {
                 
             })
 
-            axios.get('http://localhost:3131/songinfo')
+            axios.get('/songinfo')
                 .then( (data) => {
                     var array = [];
                     data.data.forEach( (songInfoObj) => {
@@ -45,7 +45,7 @@ class App extends React.Component {
                         // console.log('STATE SONG INFO: ', this.state.songInformation)
                     })
                 })
-                .then(axios.get('http://localhost:3131/likes')
+                .then(axios.get('/likes')
                     .then ( (data) => {
                         var count = 0
                         data.data.forEach( (songObj) => {
@@ -68,7 +68,7 @@ class App extends React.Component {
                             console.log('This.state.songInfomation: ', this.state.songInformation)
                         })
                     }))
-                    .then(axios.get('http://localhost:3131/userinfo')
+                    .then(axios.get('/userinfo')
                         .then( (data) => {
                             console.log('USERINFO: ', data.data)
                             var stateSongInfo = this.state.songInformation

@@ -12,7 +12,7 @@ function onClickFollowers() {
 function Card(props) {
     return(
         <div className='card'>
-            <img className= 'roundImage followHover' src={'http://localhost:3131/' + props.picture.user_picture_url} height="70px" width="70px" onClick={() => props.clickProfile(props.picture.username)}/>
+            <img className= 'roundImage followHover' src={props.picture.user_picture_url} height="70px" width="70px" onClick={() => props.clickProfile(props.picture.username)}/>
             <div className='cardName'>
                 <div className='followerName' onClick={() => props.clickProfile(props.picture.username)}>{props.picture.username}</div>
                 <div className='followerNumber'>
@@ -31,7 +31,7 @@ function Namelist(props) {
     return(
         <Popup className='popup'
             trigger ={<li className='pppics' onClick={() => props.clickProfile(props.picture.username)}>
-                <img className= 'roundImage' src={'http://localhost:3131/' + props.picture.user_picture_url} height="40px" width="40px"/>
+                <img className= 'roundImage' src={props.picture.user_picture_url} height="40px" width="40px"/>
             </li>}
             position='bottom center'
             on='hover'
