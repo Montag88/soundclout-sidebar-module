@@ -29,7 +29,7 @@ class RelatedTracks extends React.Component {
 
     postLike (songId, usernameId, likes) {
             var value = {songId, usernameId, likes};
-            axios.post('/likePost', value)
+            axios.post('http://ec2-18-224-181-241.us-east-2.compute.amazonaws.com:3131/likePost', value)
                 .then( (data) => {
                     // console.log('Like Posted')
                     var updatedLikes = value.likes + 1;
@@ -52,13 +52,13 @@ class RelatedTracks extends React.Component {
                 <div className='singleTrackInformation'>
                     <span className='relatedTrackPicHolder'>
                         <span className='rtImageBox' onClick={this.clickChangePlayImage}>
-                            <img className='rtImage' src={this.state.songInformation.song_picture_url} height="50px" width="50px" />
+                            <img className='rtImage' src={'http://ec2-18-224-181-241.us-east-2.compute.amazonaws.com:3131/' + this.state.songInformation.song_picture_url} height="50px" width="50px" />
                             { !this.state.playImage
-                            ? (<img className='rtImageOverlay' src='/images/playoverlay.png' heigth='30px' width='30px' />
+                            ? (<img className='rtImageOverlay' src='http://ec2-18-224-181-241.us-east-2.compute.amazonaws.com:3131/images/playoverlay.png' heigth='30px' width='30px' />
                             )
                             :
                             (
-                                <img className='rtImageOverlay' src='/images/pauseOverlay.png' heigth='30px' width='30px' />
+                                <img className='rtImageOverlay' src='http://ec2-18-224-181-241.us-east-2.compute.amazonaws.com:3131/images/pauseOverlay.png' heigth='30px' width='30px' />
                             )
                             } 
                         </span>
@@ -75,7 +75,7 @@ class RelatedTracks extends React.Component {
                                 <div className='relatedSongName'>{this.state.songInformation.title}</div>
                                 <div className='relatedMenuOptions'>
                                     <span className='likeRelatedSong'>
-                                        <img className='likeRelatedSongBlackHeart' src='/images/blackheart.png' height='12px' width='12px' onClick={() => {this.postLike(this.state.songInformation.song_id, this.state.songInformation.username_id, this.state.songInformation.likes)}}></img>
+                                        <img className='likeRelatedSongBlackHeart' src='http://ec2-18-224-181-241.us-east-2.compute.amazonaws.com:3131/images/blackheart.png' height='12px' width='12px' onClick={() => {this.postLike(this.state.songInformation.song_id, this.state.songInformation.username_id, this.state.songInformation.likes)}}></img>
                                     </span>
                                     <Menu />
                                 </div>
