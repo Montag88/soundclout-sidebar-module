@@ -41,49 +41,90 @@ class App extends React.Component {
                             array.push(songInfoObj)
                         }
                     })
-                    this.setState({songInformation: array}, () => {
-                        // console.log('STATE SONG INFO: ', this.state.songInformation)
-                    })
-                })
-                .then(axios.get('http://ec2-18-224-181-241.us-east-2.compute.amazonaws.com:3131//likes')
-                    .then ( (data) => {
-                        var count = 0
-                        data.data.forEach( (songObj) => {
-                            if(songObj.song_id === 1){
-                                count++
-                            }
-                        })
-                        this.setState({likes: count})
-                        if(count === 1) {
-                            this.setState({likeWord: 'like'})
-                        }
-                        // console.log(this.state.likes)
-                        
-                        var stateSongInfo = this.state.songInformation;
-                        stateSongInfo.forEach( (songInfoObj) => {
-                            this.countRelatedTracksLikes(data, songInfoObj)
-                        })
-                        this.setState({songInformation: stateSongInfo}, () => {
+                    // this.setState({songInformation: array}, () => {
+                    //     console.log('STATE SONG INFO: ', this.state.songInformation)
+                    // })
 
-                            console.log('This.state.songInfomation: ', this.state.songInformation)
-                        })
-                    }))
-                    .then(axios.get('http://ec2-18-224-181-241.us-east-2.compute.amazonaws.com:3131/userinfo')
-                        .then( (data) => {
-                            console.log('USERINFO: ', data.data)
-                            var stateSongInfo = this.state.songInformation
-                            stateSongInfo.forEach( (songObj) => {
-                                data.data.forEach( (dataObj) =>{
-                                    if(songObj.username_id === dataObj.username_id){
-                                        songObj.username = dataObj.username
-                                    }
-                                })
+                    axios.get('http://ec2-18-224-181-241.us-east-2.compute.amazonaws.com:3131/likes')
+                        .then ( (data) => {
+                            var count = 0
+                            data.data.forEach( (songObj) => {
+                                if(songObj.song_id === 1){
+                                    count++
+                                }
                             })
-                            console.log('STATE SONGINFO: ', stateSongInfo)
-                            this.setState({songInformation: stateSongInfo})
+                            this.setState({likes: count})
+                            if(count === 1) {
+                                this.setState({likeWord: 'like'})
+                            }
+                            console.log("STATE LIKES, APP.JSX: ", this.state.likes)
+                            
+                            // var stateSongInfo = this.state.songInformation.slice();
+                            var stateSongInfo = array;
+                            stateSongInfo.forEach( (songInfoObj) => {
+                                this.countRelatedTracksLikes(data, songInfoObj)
+                            })
+                            
+                            axios.get('http://ec2-18-224-181-241.us-east-2.compute.amazonaws.com:3131/userinfo')
+                                .then( (data) => {
+                                    console.log('USERINFO: ', data.data)
+                                    stateSongInfo.forEach( (songObj) => {
+                                        data.data.forEach( (dataObj) =>{
+                                            if(songObj.username_id === dataObj.username_id){
+                                                songObj.username = dataObj.username
+                                            }
+                                        })
+                                    })
+                                    console.log('STATE SONGINFO: ', stateSongInfo)
+                                    this.setState({songInformation: stateSongInfo})
+                                })
                         })
-                    )
-        
+                })
+
+                // .then(axios.get('/likes')
+                //     .then ( (data) => {
+                //         var count = 0
+                //         data.data.forEach( (songObj) => {
+                //             if(songObj.song_id === 1){
+                //                 count++
+                //             }
+                //         })
+                //         this.setState({likes: count})
+                //         if(count === 1) {
+                //             this.setState({likeWord: 'like'})
+                //         }
+                //         // console.log(this.state.likes)
+                        
+                //         var stateSongInfo = this.state.songInformation;
+                //         stateSongInfo.forEach( (songInfoObj) => {
+                //             this.countRelatedTracksLikes(data, songInfoObj)
+                //         })
+                //         this.setState({songInformation: stateSongInfo}, () => {
+
+                //             console.log('This.state.songInfomation: ', this.state.songInformation)
+                //         })
+                //     }))
+                //     .then(axios.get('/userinfo')
+                //         .then( (data) => {
+                //             console.log('USERINFO: ', data.data)
+                //             var stateSongInfo = this.state.songInformation
+                //             stateSongInfo.forEach( (songObj) => {
+                //                 data.data.forEach( (dataObj) =>{
+                //                     if(songObj.username_id === dataObj.username_id){
+                //                         songObj.username = dataObj.username
+                //                     }
+                //                 })
+                //             })
+                //             console.log('STATE SONGINFO: ', stateSongInfo)
+                //             this.setState({songInformation: stateSongInfo})
+                //         })
+                //     )
+
+
+      ///////////////////////////////////////////////////////////////////////              
+
+    
+    
 
     };
 

@@ -52,7 +52,7 @@ class RelatedTracks extends React.Component {
                 <div className='singleTrackInformation'>
                     <span className='relatedTrackPicHolder'>
                         <span className='rtImageBox' onClick={this.clickChangePlayImage}>
-                            <img className='rtImage' src={'http://ec2-18-224-181-241.us-east-2.compute.amazonaws.com:3131/' + this.state.songInformation.song_picture_url} height="50px" width="50px" />
+                            <img className='rtImage' src={'http://ec2-18-224-181-241.us-east-2.compute.amazonaws.com:3131' + this.state.songInformation.song_picture_url} height="50px" width="50px" />
                             { !this.state.playImage
                             ? (<img className='rtImageOverlay' src='http://ec2-18-224-181-241.us-east-2.compute.amazonaws.com:3131/images/playoverlay.png' heigth='30px' width='30px' />
                             )
