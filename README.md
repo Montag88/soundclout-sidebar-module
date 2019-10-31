@@ -17,21 +17,14 @@ To implement the semi-static/dynamic sidebar and playlist component for the Soun
 ### Rest
  - URL: http://localhost:3000/api
  
- - GET /tracks/:trackid/relatedtracks
- #### example /tracks/99/relatedtracks
- gets three tracks related to track 99 and information about related tracks (link to track, title, artist, plays, likes, reposts, comments)
- - GET /tracks/:trackid/albums
- #### example /tracks/99/albums
- gets up to three albums that track 99 appears in and info about albums (title, artist, music format, release year)
- - GET /tracks/:trackid/playlists
- #### example /tracks/99/playlists
- gets up to three playlists that track 99 appears in and info about playlists (title, likes, user)
- - GET /tracks/:trackid/likes
- #### example /tracks/99/likes
- gets number of likes of track 99 and also gets up to 9 random users that have liked track 99
- - GET /tracks/:trackid/reposts
- #### example /tracks/99/reposts
- gets number of reposts of track 99 and also gets up to 9 random users that have reposted track 99
+ - GET /tracks/:trackid
+ #### example /tracks/99
+ gets related tracks, albums, playlists, likes, and reposts of track 99.
+ Related Tracks - three tracks related to track 99 and information about related tracks (link to track, title, artist, plays, likes, reposts, comments). Also gets artist information (number of followers, location, pro status).
+ Albums - up to three albums that track 99 appears in and info about albums (title, artist, music format, release year). Also gets artist information (number of followers, location, pro status).
+ Playlists - up the three playlists that track 99 appears in and info about playlist (title, likes, user). Also gets user information (number of followers).
+ Likes - number of likes of track 99 and up to 9 random users that have liked track 99. Also gets user information (number of followers).
+ Reposts - number of reposts of track 99 and up to 9 random users that have reposted track 99. Also gets user information (number of followers).
  
  - POST /tracks/:trackid/likes
  #### example /tracks/100/likes
