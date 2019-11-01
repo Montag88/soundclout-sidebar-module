@@ -32,12 +32,12 @@ All data types will be JSON.
    
 | Name             | Type        | Description                                                                               |
 | :--------------- | :---------: | :---------------------------------------------------------------------------------------- |
-| `track_info`.    | `JSON`      | Track title, length, release date, comments, and plays.                                   |
-| `related_tracks` | `JSON`      | Three tracks related to current track and information about related tracks.               |
-| `albums`         | `JSON`      | Up to three albums that current track appears in and info about albums.                   | 
-| `playlists`      | `JSON`      | Up to three playlists that current track appears in and info about playlists.             |
-| `likes`          | `JSON`      | Number of likes of current track and up to nine users that have liked current track.      |
-| `reposts`        | `JSON`      | Number of reposts of current track and up to nine users that have reposted current track. |
+| `track_info`     | `OBJ`       | Track title, length, release date, comments, and plays.                                   |
+| `related_tracks` | `OBJ`       | Three tracks related to current track and information about related tracks.               |
+| `albums`         | `OBJ`       | Up to three albums that current track appears in and info about albums.                   | 
+| `playlists`      | `OBJ`       | Up to three playlists that current track appears in and info about playlists.             |
+| `likes`          | `OBJ`       | Number of likes of current track and up to nine users that have liked current track.      |
+| `reposts`        | `OBJ`       | Number of reposts of current track and up to nine users that have reposted current track. |
 
 `POST /tracks/:trackid/likes` posts a like from current user for track
  
