@@ -14,54 +14,163 @@ To implement the semi-static/dynamic sidebar and playlist component for the Soun
  - display profiles that have reposted the song
  - site map
 
-### Rest
- - URL: http://localhost:3000/api
+### CRUD API
+URL: http://localhost:3000/api
+All data types will be JSON.
  
- - GET /tracks/:trackid
-   - #### example /tracks/99
-   - gets related tracks, albums, playlists, likes, and reposts of track 99.
-     - Related Tracks - three tracks related to track 99 and information about related tracks (link to track, title, artist, plays, likes, reposts, comments). Also gets artist information (number of followers, location, pro status).
-     - Albums - up to three albums that track 99 appears in and info about albums (title, artist, music format, release year). Also gets artist information (number of followers, location, pro status).
-     - Playlists - up the three playlists that track 99 appears in and info about playlist (title, likes, user). Also gets user information (number of followers).
-     - Likes - number of likes of track 99 and up to 9 random users that have liked track 99. Also gets user information (number of followers).
-     - Reposts - number of reposts of track 99 and up to 9 random users that have reposted track 99. Also gets user information (number of followers).
+`GET /tracks/:trackid` gets related tracks, albums, playlists, likes, and reposts of track.
+
+- example: /tracks/99
+
+##### Parameters
+   
+| Name             | Type          | Description                                                            |
+| :--------------- | :-----------: | :--------------------------------------------------------------------- |
+| `track_id`       | `integer`     | *Required.* Track identifier.                                          |
+
+##### Response
+   
+| Name             | Type        | Description                                                                               |
+| :--------------- | :---------: | :---------------------------------------------------------------------------------------- |
+| `track_info`.    | `JSON`      | Track title, length, release date, comments, and plays.                                   |
+| `related_tracks` | `JSON`      | Three tracks related to current track and information about related tracks.               |
+| `albums`         | `JSON`      | Up to three albums that current track appears in and info about albums.                   | 
+| `playlists`      | `JSON`      | Up to three playlists that current track appears in and info about playlists.             |
+| `likes`          | `JSON`      | Number of likes of current track and up to nine users that have liked current track.      |
+| `reposts`        | `JSON`      | Number of reposts of current track and up to nine users that have reposted current track. |
+
+`POST /tracks/:trackid/likes` posts a like from current user for track
  
- - POST /tracks/:trackid/likes
-   - #### example /tracks/100/likes
-   - posts a like from current user for track 100
- - POST /tracks/:trackid/reposts
-   - #### example /tracks/100/reposts
-   - posts a repost from current user for track 100
- - POST /artists/:artistid/follow
-   - #### example /artists/150/follow
-   - posts a follow from current user for artist 150
- - POST /users/:userid/follow
-   - #### example /users/175/follow
-   - posts a follow from current user for user 175
- - POST /users/:userid/upnext/play
-   - #### example /users/199/upnext/play
-   - adds song to up next playlist of current user (user 199) as current track
- - POST /users/:userid/upnext/next
-   - #### example /users/199/upnext/next
-   - adds song to up next playlist of current user (user 199) as next track
- - POST /users/:userid/playlists/:playlistid
-   - #### example /users/199/playlists/10
-   - adds song to playlist 10 of current user (user 199)
- - DELETE /tracks/:trackid/likes
-   - #### example /tracks/100/likes
-   - deletes a like from current user for track 100
- - DELETE /tracks/:trackid/reposts
-   - #### example /tracks/100/reposts
-   - deletes a repost from current user for track 100
- - DELETE /artists/:artistid/follow
-   - #### example /artists/150/follow
-   - deletes a follow from current user for artist 150
- - DELETE /users/:userid/follow
-   - #### example /users/175/follow
-   - deletes a follow from current user for user 175
- - PUT /tracks/:tracksid/genre
-   - #### example /tracks/135/genre
-   - updates song genre
+- example:  /tracks/100/likes
+
+##### BODY
+
+| Name             | Type        | Description                                                                               |
+| :--------------- | :---------: | :---------------------------------------------------------------------------------------- |
+| `track_id`       | `integer`   | *Required.* Track identifier.                                                             |
+| `user_id`        | `integer`   | *Required.* User identifier.                                                              |
+
+`POST /tracks/:trackid/reposts` posts a repost from current user for track
+ 
+- example:  /tracks/100/reposts
+
+##### BODY
+
+| Name             | Type        | Description                                                                               |
+| :--------------- | :---------: | :---------------------------------------------------------------------------------------- |
+| `track_id`       | `integer`   | *Required.* Track identifier.                                                             |
+| `user_id`        | `integer`   | *Required.* User identifier.                                                              |
+
+`POST /artists/:artistid/follow` posts a follow from current user for artist
+ 
+- example:  /artists/100/follow
+
+##### BODY
+
+| Name             | Type        | Description                                                                               |
+| :--------------- | :---------: | :---------------------------------------------------------------------------------------- |
+| `artist_id`      | `integer`   | *Required.* Artist identifier.                                                            |
+| `user_id`        | `integer`   | *Required.* User identifier.                                                              |
+
+`POST /users/:followid/follow` posts a follow from current user for user
+ 
+- example:  /users/100/follow
+
+##### BODY
+
+| Name             | Type        | Description                                                                               |
+| :--------------- | :---------: | :---------------------------------------------------------------------------------------- |
+| `follow_id`      | `integer`   | *Required.* User to be followed identifier.                                               |
+| `user_id`        | `integer`   | *Required.* User identifier.                                                              |
+
+`POST /users/:userid/upnext/play` adds song to up next playlist of current user as current track
+ 
+- example:  /users/199/upnext/play
+
+##### BODY
+
+| Name             | Type        | Description                                                                               |
+| :--------------- | :---------: | :---------------------------------------------------------------------------------------- |
+| `track_id`       | `integer`   | *Required.* Track identifier.                                                             |
+| `user_id`        | `integer`   | *Required.* User identifier.                                                              |
+
+`POST /users/:userid/upnext/` adds song to up next playlist of current user
+ 
+- example:  /users/199/upnext/
+
+##### BODY
+
+| Name             | Type        | Description                                                                               |
+| :--------------- | :---------: | :---------------------------------------------------------------------------------------- |
+| `track_id`       | `integer`   | *Required.* Track identifier.                                                             |
+| `user_id`        | `integer`   | *Required.* User identifier.                                                              |
+
+`POST /users/:userid/playlists/:playlistid` adds track to playlist of current user
+ 
+- example:  /users/199/playlists/10
+
+##### BODY
+
+| Name             | Type        | Description                                                                               |
+| :--------------- | :---------: | :---------------------------------------------------------------------------------------- |
+| `track_id`       | `integer`   | *Required.* Track identifier.                                                             |
+| `playlist_id`    | `integer`   | *Required.* Playlist identifier.                                                          |
+| `user_id`        | `integer`   | *Required.* User identifier.                                                              |
+
+`DELETE /tracks/:trackid/likes` deletes a like from current user for track
+ 
+- example:  /tracks/100/likes
+
+##### BODY
+
+| Name             | Type        | Description                                                                               |
+| :--------------- | :---------: | :---------------------------------------------------------------------------------------- |
+| `track_id`       | `integer`   | *Required.* Track identifier.                                                             |
+| `user_id`        | `integer`   | *Required.* User identifier.                                                              |
+
+`DELETE /tracks/:trackid/reposts` deletes a repost from current user for track
+ 
+- example:  /tracks/100/reposts
+
+##### BODY
+
+| Name             | Type        | Description                                                                               |
+| :--------------- | :---------: | :---------------------------------------------------------------------------------------- |
+| `track_id`       | `integer`   | *Required.* Track identifier.                                                             |
+| `user_id`        | `integer`   | *Required.* User identifier.                                                              |
+
+`DELETE /artists/:artistid/follow` deletes a follow from current user for artist
+ 
+- example:  /artists/150/follow
+
+##### BODY
+
+| Name             | Type        | Description                                                                               |
+| :--------------- | :---------: | :---------------------------------------------------------------------------------------- |
+| `artist_id`      | `integer`   | *Required.* Artist identifier.                                                           |
+| `user_id`        | `integer`   | *Required.* User identifier.                                                              |
+
+`DELETE /users/:followid/follow` deletes a follow from current user for user
+ 
+- example:  /users/150/follow
+
+##### BODY
+
+| Name             | Type        | Description                                                                               |
+| :--------------- | :---------: | :---------------------------------------------------------------------------------------- |
+| `follow_id`      | `integer`   | *Required.* User to be followed identifier.                                               |
+| `user_id`        | `integer`   | *Required.* User identifier.                                                              |
+
+`PUT /tracks/:tracksid/genre` updates song genre
+ 
+- example:  /tracks/135/genre
+
+##### BODY
+
+| Name             | Type        | Description                                                                               |
+| :--------------- | :---------: | :---------------------------------------------------------------------------------------- |
+| `track_id`       | `integer`   | *Required.* Track identifier.                                                             |
+| `genre`          | `string`    | *Required.* User identifier.                                                              |
 
 
 ### Requirements
