@@ -5,28 +5,30 @@ const fs = require('fs');
 // const gunzip = zlib.createGunzip();
 
 var numTracks = 10000000;
-var numUsers = 1400000;
+var numUsers = 14000000;
 
-/////////////////// DONE //////////////////
+/////////////////// TRACK BASED //////////////////
 // generateTracksCSV(numTracks);
-// generateTrackGenresCSV(numTracks); // ends up with ~1.6x datapoints
-// generateTrackArtistsAlbumsCSV(.039 * numTracks); // ends up with 378706 Albums
 // generateArtistsCSV(.039 * numTracks); // update number of artists based on trackartists csv
 // generateGenreCSV(14); // Fixed amount for number of genres
-// generateAlbumsCSV(378706); // use 378706
 
+// generateTrackGenresCSV(numTracks); // ends up with ~1.6x datapoints
+// generateTrackArtistsAlbumsCSV(.039 * numTracks); // ends up with 378565 Albums
+
+// generateAlbumsCSV(378565); // use 378565
+
+/////////////////// USER BASED //////////////////
+// generateUsersCSV(numUsers);
+
+// generateTrackLikesCSV(numUsers); // use numUsers
+// generateTrackRepostsCSV(numUsers); // use numUsers
 
 ////////////// NEED TO GENERATE //////////////////
-// generateUsersCSV(numUsers); // USE TO TEST DB, currently at 1.4M
-
-// BELOW ARE ALL RANDOM DISTRIBUTIONS
-// generatePlaylistsCSV
-// generateTrackPlaylistsCSV
-
-// generateTrackLikesCSV
-// generateTrackRepostsCSV
+// generatePlaylistsCSV(.5 * numUsers); // use .5 * numUsers
+// generateTrackPlaylistsCSV(.5 * numUsers); // use .5 * numUsers
 
 function writeMany(i, dataType, writer, encoding, callback) {
+  i++;
   function write() {
     let isBufferAvailable = true;
     do {
@@ -54,17 +56,28 @@ function writeMany(i, dataType, writer, encoding, callback) {
         case 'albums':
           var data = albumSeedData();
           break;
-
+        case 'track_likes':
+          var data = trackLikeSeedData(i);
+          break;
+        case 'track_reposts':
+          var data = trackRepostSeedData(i);
+          break;
+        case 'playlists':
+          var data = playlistSeedData();
+          break;
+        case 'track_playlists':
+          var data = trackPlaylistSeedData(i);
+          break;
       }
-      if (i === 0) {
+      if (i === 1) {
         writer.write(data, encoding, callback); // STANDARD FORMAT FOR WRITER.WRITE
       } else {
         // see if we should continue, or wait
         // don't pass the callback, because we're not done yet.
         isBufferAvailable = writer.write(data, encoding);
       }
-    } while (i > 0 && isBufferAvailable);
-    if (i > 0) {
+    } while (i > 1 && isBufferAvailable);
+    if (i > 1) {
       // had to stop early!
       // write some more once it drains
       writer.once('drain', write);
@@ -75,8 +88,9 @@ function writeMany(i, dataType, writer, encoding, callback) {
 
 ////////////// MULTIPLE STREAMS ///////////////
 function writeManyMulti(i, trackArtistWriter, trackAlbumWriter, encoding, cb1, cb2) {
-  let currentTrack = 0;
-  let currentAlbum = 0;
+  let currentTrack = 1;
+  let currentAlbum = 1;
+  i++;
   function write() {
     let trackArtistBuffer = true;
     let trackAlbumBuffer = true;
@@ -87,7 +101,7 @@ function writeManyMulti(i, trackArtistWriter, trackAlbumWriter, encoding, cb1, c
       var trackAlbumData = data.associatedAlbums;
       currentTrack = data.currentTrack;
       currentAlbum = data.currentAlbum;
-      if (i === 0) {
+      if (i === 1) {
         console.log('last piece of data: ', data);
         trackAlbumWriter.write(trackAlbumData, encoding, cb2);
         trackArtistWriter.write(trackArtistData, encoding, cb1); // STANDARD FORMAT FOR WRITER.WRITE
@@ -97,8 +111,8 @@ function writeManyMulti(i, trackArtistWriter, trackAlbumWriter, encoding, cb1, c
         trackAlbumBuffer = trackAlbumWriter.write(trackAlbumData, encoding);
         trackArtistBuffer = trackArtistWriter.write(trackArtistData, encoding);
       }
-    } while (i > 0 && (trackArtistBuffer || trackAlbumBuffer));
-    if (i > 0) {
+    } while (i > 1 && (trackArtistBuffer || trackAlbumBuffer));
+    if (i > 1) {
       // had to stop early!
       // write some more once it drains
       trackArtistWriter.once('drain', write);
@@ -106,13 +120,113 @@ function writeManyMulti(i, trackArtistWriter, trackAlbumWriter, encoding, cb1, c
   }
   write();
 }
+/////////////////// PLAYLISTS SEEDING //////////////////////////////
+function generatePlaylistsCSV(dataPoints) {
+  const writePlaylists = fs.createWriteStream('playlists.csv');
+  var start = new Date();
+  var dataType = 'playlists';
+  writeMany(dataPoints, dataType, writePlaylists, 'utf-8', () => {
+    writePlaylists.end();
+    var end = new Date();
+    console.log('time to complete playlists: ', end - start);
+  });
+};
+function playlistSeedData() {
+  var userID = Math.floor(Math.random() * numUsers + 1);
+  var name = faker.name.title();
+  var image_url = 'http://lorempixel.com/640/480/sports';
+  var likes = Math.floor(Math.random() * numUsers * .1);
+  var reposts = Math.floor(Math.random() * numUsers * .1);
 
+  return `${userID},${name},${image_url},${likes},${reposts}\n`;
+};
+/////////////////// TRACK PLAYLISTS SEEDING //////////////////////
+function generateTrackPlaylistsCSV(dataPoints) {
+  const writeTrackPlaylists = fs.createWriteStream('track_playlists.csv');
+  var start = new Date();
+  var dataType = 'track_playlists';
+  writeMany(dataPoints, dataType, writeTrackPlaylists, 'utf-8', () => {
+    writeTrackPlaylists.end();
+    var end = new Date();
+    console.log('time to complete track_playlists: ', end - start);
+  });
+};
+function trackPlaylistSeedData(i) {
+  var playlist = '';
+  var tracks = Math.floor(Math.random() * 30);
+  var storage = [];
+  while (tracks > 0) {
+    var trackID = Math.floor(Math.random() * numTracks) + 1;
+    if (storage.indexOf(trackID) === -1) {
+      storage.push(trackID);
+      tracks--;
+    }
+  }
+  while (storage.length > 0) {
+    var currentTrack = storage.pop();
+    // requires song_id, playlist_id
+    playlist += `${currentTrack},${i}\n`;
+  }
+  return playlist;
+};
 /////////////////// TRACK LIKES SEEDING //////////////////////
-
-
+function generateTrackLikesCSV(dataPoints) {
+  const writeTrackLikes = fs.createWriteStream('track_likes.csv');
+  var start = new Date();
+  var dataType = 'track_likes';
+  writeMany(dataPoints, dataType, writeTrackLikes, 'utf-8', () => {
+    writeTrackLikes.end();
+    var end = new Date();
+    console.log('time to complete track_likes: ', end - start);
+  });
+};
+function trackLikeSeedData(i) {
+  var likes = '';
+  var userLikes = Math.floor(Math.random() * 20);
+  var storage = [];
+  while (userLikes > 0) {
+    var trackID = Math.floor(Math.random() * numTracks) + 1;
+    if (storage.indexOf(trackID) === -1) {
+      storage.push(trackID);
+      userLikes--;
+    }
+  }
+  while (storage.length > 0) {
+    var currentTrack = storage.pop();
+    var currentTimestamp = new Date(faker.date.past(5)).toJSON();
+    likes += `${i},${currentTrack},${currentTimestamp}\n`;
+  }
+  return likes;
+};
 /////////////////// TRACK REPOSTS SEEDING //////////////////////
-
-
+function generateTrackRepostsCSV(dataPoints) {
+  const writeTrackReposts = fs.createWriteStream('track_reposts.csv');
+  var start = new Date();
+  var dataType = 'track_reposts';
+  writeMany(dataPoints, dataType, writeTrackReposts, 'utf-8', () => {
+    writeTrackReposts.end();
+    var end = new Date();
+    console.log('time to complete track_reposts: ', end - start);
+  });
+};
+function trackRepostSeedData(i) {
+  var reposts = '';
+  var userReposts = Math.floor(Math.random() * 20);
+  var storage = [];
+  while (userReposts > 0) {
+    var trackID = Math.floor(Math.random() * numTracks) + 1;
+    if (storage.indexOf(trackID) === -1) {
+      storage.push(trackID);
+      userReposts--;
+    }
+  }
+  while (storage.length > 0) {
+    var currentTrack = storage.pop();
+    var currentTimestamp = new Date(faker.date.past(5)).toJSON();
+    reposts += `${i},${currentTrack},${currentTimestamp}\n`;
+  }
+  return reposts;
+};
 /////////////////// TRACK ARTISTS ALBUMS SEEDING //////////////////////
 function generateTrackArtistsAlbumsCSV(dataPoints) {
   const writeTrackArtists = fs.createWriteStream('track_artists.csv');
@@ -131,7 +245,7 @@ function generateTrackArtistsAlbumsCSV(dataPoints) {
   };
   writeManyMulti(dataPoints, writeTrackArtists, writeTrackAlbums, 'utf-8', artistsCB, albumsCB);
 };
-function trackArtistSeedData(artistID, currentTrack = 0, currentAlbum = 0) {
+function trackArtistSeedData(artistID, currentTrack = 1, currentAlbum = 1) {
   // i is artist id
   // every track has at least one artist
   if (currentTrack > numTracks - 1) {
@@ -147,17 +261,17 @@ function trackArtistSeedData(artistID, currentTrack = 0, currentAlbum = 0) {
     case 0:
       var artistTracks = Math.floor(Math.random() * 50 + 100);
       var artistAlbums = 6;
-      // generate 6 albums with 14 tracks each
+      // generate 6 albums with 13 tracks each
       break;
     case 1:
       var artistTracks = Math.floor(Math.random() * 40 + 50);
       var artistAlbums = 3;
-      // generate 3 albums with 14 tracks each
+      // generate 3 albums with 13 tracks each
       break;
     case 2:
       var artistTracks = Math.floor(Math.random() * 30 + 20);
       var artistAlbums = 1;
-      // generate 1 album with 14 tracks
+      // generate 1 album with 13 tracks
       break;
     case 99:
       var artistTracks = Math.floor(Math.random() * 10 + 1);
@@ -191,21 +305,18 @@ function trackArtistSeedData(artistID, currentTrack = 0, currentAlbum = 0) {
             albumTrackCounter = 0;
           }
         }
-        // iterate over albums to artistAlbums counter
-        // associate current track with current album
-        // when album is full (14) tracks, continue to next album
         currentTrack++;
       }
     };
     // associate tracks in other genres with artist
     // other can be random song in current genre or pop
     for (let i = 0; i < tracksInOtherGenre; i++) {
-      var songID = Math.floor(Math.random() * numTracks);
+      var songID = Math.floor(Math.random() * numTracks + 1);
       // isInCorrectGenre will change based on genre
       var isInCorrectGenre = (songID <= Math.floor(numTracks * .25) || songID > Math.floor(numTracks * .75));
       var isNotAlreadyAssociated = (songID < startTrack && songID > currentTrack);
       while (isInCorrectGenre && isNotAlreadyAssociated) {
-        songID = Math.floor(Math.random() * numTracks);
+        songID = Math.floor(Math.random() * numTracks + 1);
       }
       associatedTracks += `${songID},${artistID}\n`;
     };
@@ -228,7 +339,7 @@ function trackArtistSeedData(artistID, currentTrack = 0, currentAlbum = 0) {
       }
     };
     for (let i = 0; i < tracksInOtherGenre; i++) {
-      var songID = Math.floor(Math.random() * numTracks);
+      var songID = Math.floor(Math.random() * numTracks + 1);
       // isInCorrectGenre will change based on genre
       var isInCorrectGenre = (
         (songID > Math.floor(numTracks * .25) && songID <= Math.floor(numTracks * .5)) 
@@ -236,7 +347,7 @@ function trackArtistSeedData(artistID, currentTrack = 0, currentAlbum = 0) {
       );
       var isNotAlreadyAssociated = (songID < startTrack && songID > currentTrack);
       while (isInCorrectGenre && isNotAlreadyAssociated) {
-        songID = Math.floor(Math.random() * numTracks);
+        songID = Math.floor(Math.random() * numTracks + 1);
       }
       associatedTracks += `${songID},${artistID}\n`;
     };
@@ -259,7 +370,7 @@ function trackArtistSeedData(artistID, currentTrack = 0, currentAlbum = 0) {
       }
     };
     for (let i = 0; i < tracksInOtherGenre; i++) {
-      var songID = Math.floor(Math.random() * numTracks);
+      var songID = Math.floor(Math.random() * numTracks + 1);
       // isInCorrectGenre will change based on genre
       var isInCorrectGenre = (
         (songID > Math.floor(numTracks * .5) && songID <= Math.floor(numTracks * .75)) 
@@ -267,7 +378,7 @@ function trackArtistSeedData(artistID, currentTrack = 0, currentAlbum = 0) {
       );
       var isNotAlreadyAssociated = (songID < startTrack && songID > currentTrack);
       while (isInCorrectGenre && isNotAlreadyAssociated) {
-        songID = Math.floor(Math.random() * numTracks);
+        songID = Math.floor(Math.random() * numTracks + 1);
       }
       associatedTracks += `${songID},${artistID}\n`;
     };
@@ -290,10 +401,10 @@ function trackArtistSeedData(artistID, currentTrack = 0, currentAlbum = 0) {
       }
     };
     for (let i = 0; i < tracksInOtherGenre; i++) {
-      var songID = Math.floor(Math.random() * numTracks);
+      var songID = Math.floor(Math.random() * numTracks + 1);
       var isNotAlreadyAssociated = (songID < startTrack && songID > currentTrack);
       while (isNotAlreadyAssociated) {
-        songID = Math.floor(Math.random() * numTracks);
+        songID = Math.floor(Math.random() * numTracks + 1);
       }
       associatedTracks += `${songID},${artistID}\n`;
     };  
@@ -332,7 +443,7 @@ function generateAlbumsCSV(dataPoints) {
 }
 function albumSeedData() {
   // requires name, image, release year, media type
-  var name = faker.company.companyName();
+  var name = faker.company.bs();
   var image_url = 'http://lorempixel.com/640/480/food';
   var release_year = Math.floor(Math.random() * 50 + 1970);
   var media_type = 'Album';
@@ -496,7 +607,7 @@ function generateGenreCSV(dataPoints) {
 
 function genreSeedData(i) {
   var genres = ['ambient', 'house', 'techno', 'reggae', 'jazz', 'rap', 'hip hop', 'r&b', 'country', 'punk rock', 'heavy metal', 'alternative rock', 'rock', 'pop'];
-  return `${genres[i]}\n`;
+  return `${genres[i - 1]}\n`;
 };
 /////////////////// TRACK SEEDING //////////////////////
 function generateTracksCSV(dataPoints) {

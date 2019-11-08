@@ -12,7 +12,8 @@
     "test": "jest",
     "start": "nodemon server/index.js",
     "dev-react": "webpack -d --watch",
-    "seed-database": "node seedDb.js"
+    "seed-database": "node seedDb.js",
+    "seed-db": "psql postgres < /Users/patrick/Documents/'Git Repository'/soundclout-sidebar-module/postgres.sql"
   },
   "repository": {
     "type": "git",
@@ -38,6 +39,7 @@
     "jest": "^24.9.0",
     "jest-cli": "^24.9.0",
     "nodemon": "^1.19.3",
+    "pg": "^7.12.1",
     "react-test-renderer": "^16.10.2",
     "webpack": "^4.41.1",
     "webpack-cli": "^3.3.9",
