@@ -20,12 +20,12 @@ var numUsers = 14000000;
 /////////////////// USER BASED //////////////////
 // generateUsersCSV(numUsers);
 
-// generateTrackLikesCSV(numUsers); // use numUsers
-// generateTrackRepostsCSV(numUsers); // use numUsers
+generateTrackLikesCSV(numUsers); // use numUsers
+generateTrackRepostsCSV(numUsers); // use numUsers
 
 ////////////// NEED TO GENERATE //////////////////
 // generatePlaylistsCSV(.5 * numUsers); // use .5 * numUsers
-// generateTrackPlaylistsCSV(.5 * numUsers); // use .5 * numUsers
+generateTrackPlaylistsCSV(.5 * numUsers); // use .5 * numUsers
 
 function writeMany(i, dataType, writer, encoding, callback) {
   i++;
@@ -153,7 +153,7 @@ function generateTrackPlaylistsCSV(dataPoints) {
 };
 function trackPlaylistSeedData(i) {
   var playlist = '';
-  var tracks = Math.floor(Math.random() * 30);
+  var tracks = Math.floor(Math.random() * 10 + 1);
   var storage = [];
   while (tracks > 0) {
     var trackID = Math.floor(Math.random() * numTracks) + 1;
@@ -182,7 +182,7 @@ function generateTrackLikesCSV(dataPoints) {
 };
 function trackLikeSeedData(i) {
   var likes = '';
-  var userLikes = Math.floor(Math.random() * 20);
+  var userLikes = Math.floor(Math.random() * 10);
   var storage = [];
   while (userLikes > 0) {
     var trackID = Math.floor(Math.random() * numTracks) + 1;
@@ -211,7 +211,7 @@ function generateTrackRepostsCSV(dataPoints) {
 };
 function trackRepostSeedData(i) {
   var reposts = '';
-  var userReposts = Math.floor(Math.random() * 20);
+  var userReposts = Math.floor(Math.random() * 10);
   var storage = [];
   while (userReposts > 0) {
     var trackID = Math.floor(Math.random() * numTracks) + 1;

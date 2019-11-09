@@ -43,6 +43,12 @@ CREATE TABLE IF NOT EXISTS sdc.track_albums (
   FOREIGN KEY (album_id) REFERENCES sdc.albums (id)
 );
 
+-- ALTER TABLE sdc.track_albums
+  -- ADD CONSTRAINT constraint_track_id_fk
+  -- FOREIGN KEY (track_id)
+  -- REFERENCES tracks(id)
+  -- ON DELETE CASCADE;
+
 -- DROP TABLE IF EXISTS sdc.track_artists;
 CREATE TABLE IF NOT EXISTS sdc.track_artists (
   id SERIAL PRIMARY KEY,
@@ -75,6 +81,8 @@ CREATE TABLE IF NOT EXISTS sdc.track_genres (
 
 -- COPY sdc.track_genres (track_id,genre_id) FROM '/Users/patrick/Documents/Git Repository/soundclout-sidebar-module/track_genres.csv' (DELIMITER ',');
 
+
+
 -- DROP TABLE IF EXISTS sdc.users CASCADE;
 CREATE TABLE IF NOT EXISTS sdc.users (
   id SERIAL PRIMARY KEY,
@@ -83,7 +91,7 @@ CREATE TABLE IF NOT EXISTS sdc.users (
   image_url VARCHAR(100)
 );
 
--- DROP TABLE IF EXISTS sdc.track_likes CASCADE;
+DROP TABLE IF EXISTS sdc.track_likes CASCADE;
 CREATE TABLE IF NOT EXISTS sdc.track_likes (
   id SERIAL PRIMARY KEY,
   track_id INT,
@@ -93,7 +101,19 @@ CREATE TABLE IF NOT EXISTS sdc.track_likes (
   -- FOREIGN KEY (track_id) REFERENCES sdc.tracks (id),
   -- FOREIGN KEY (user_id) REFERENCES sdc.users (id)
 
--- DROP TABLE IF EXISTS sdc.track_reposts CASCADE;
+-- ALTER TABLE sdc.track_likes
+--   ADD CONSTRAINT constraint_track_id_fk
+--   FOREIGN KEY (track_id)
+--   REFERENCES tracks(id)
+--   ON DELETE CASCADE;
+  
+-- ALTER TABLE sdc.track_likes
+--   ADD CONSTRAINT constraint_user_id_fk
+--   FOREIGN KEY (user_id)
+--   REFERENCES users(id)
+--   ON DELETE CASCADE;
+
+DROP TABLE IF EXISTS sdc.track_reposts CASCADE;
 CREATE TABLE IF NOT EXISTS sdc.track_reposts (
   id SERIAL PRIMARY KEY,
   track_id INT,
@@ -102,6 +122,18 @@ CREATE TABLE IF NOT EXISTS sdc.track_reposts (
 );
   -- FOREIGN KEY (track_id) REFERENCES sdc.tracks (id),
   -- FOREIGN KEY (user_id) REFERENCES sdc.users (id)
+
+-- ALTER TABLE sdc.track_reposts
+--   ADD CONSTRAINT constraint_track_id_fk
+--   FOREIGN KEY (track_id)
+--   REFERENCES tracks(id)
+--   ON DELETE CASCADE;
+  
+-- ALTER TABLE sdc.track_reposts
+--   ADD CONSTRAINT constraint_user_id_fk
+--   FOREIGN KEY (user_id)
+--   REFERENCES users(id)
+--   ON DELETE CASCADE;
 
 -- DROP TABLE IF EXISTS sdc.playlists CASCADE;
 CREATE TABLE IF NOT EXISTS sdc.playlists (
@@ -114,7 +146,13 @@ CREATE TABLE IF NOT EXISTS sdc.playlists (
 );
   -- FOREIGN KEY (user_id) REFERENCES sdc.users (id)
 
--- DROP TABLE IF EXISTS sdc.track_playlists CASCADE;
+-- ALTER TABLE sdc.playlists
+--   ADD CONSTRAINT constraint_user_id_fk
+--   FOREIGN KEY (user_id)
+--   REFERENCES users(id)
+--   ON DELETE CASCADE;
+
+DROP TABLE IF EXISTS sdc.track_playlists CASCADE;
 CREATE TABLE IF NOT EXISTS sdc.track_playlists (
   id SERIAL PRIMARY KEY,
   track_id INT NOT NULL,
@@ -122,6 +160,18 @@ CREATE TABLE IF NOT EXISTS sdc.track_playlists (
 );
   -- FOREIGN KEY (track_id) REFERENCES sdc.tracks (id),
   -- FOREIGN KEY (playlist_id) REFERENCES sdc.playlists (id)
+
+-- ALTER TABLE sdc.track_playlists
+--   ADD CONSTRAINT constraint_track_id_fk
+--   FOREIGN KEY (track_id)
+--   REFERENCES tracks(id)
+--   ON DELETE CASCADE;
+  
+-- ALTER TABLE sdc.track_playlists
+--   ADD CONSTRAINT constraint_playlist_id_fk
+--   FOREIGN KEY (playlist_id)
+--   REFERENCES playlists(id)
+--   ON DELETE CASCADE;
 
 -- COPY sdc.users (name,followers,image_url) FROM '/Users/patrick/Documents/Git Repository/soundclout-sidebar-module/users.csv' (DELIMITER ',');
 
@@ -132,3 +182,24 @@ CREATE TABLE IF NOT EXISTS sdc.track_playlists (
 -- COPY sdc.playlists (user_id,name,image_url,likes,reposts) FROM '/Users/patrick/Documents/Git Repository/soundclout-sidebar-module/playlists.csv' (DELIMITER ',');
 
 -- COPY sdc.track_playlists (track_id, playlist_id) FROM '/Users/patrick/Documents/Git Repository/soundclout-sidebar-module/track_playlists.csv' (DELIMITER ',');
+
+
+------------------ SEARCHES ------------------------
+
+-- SELECT albums.name, genres.type, genres.id, track_albums.track_id 
+  -- FROM albums 
+  -- INNER JOIN track_albums ON albums.id = track_albums.album_id 
+  -- INNER JOIN track_genres ON track_albums.track_id = track_genres.track_id 
+  -- INNER JOIN genres ON track_genres.genre_id = genres.id 
+  -- WHERE albums.id = 330000 
+  -- ORDER BY track_albums.track_id;
+
+  -- SELECT tracks.title, artists.name, albums.name, genres.type
+  --   FROM tracks
+  --   INNER JOIN track_albums ON track_albums.track_id = tracks.id
+  --   INNER JOIN albums ON track_albums.album_id = albums.id
+  --   INNER JOIN track_genres ON track_genres.track_id = tracks.id 
+  --   INNER JOIN genres ON track_genres.genre_id = genres.id 
+  --   INNER JOIN track_artists ON track_artists.track_id = tracks.id
+  --   INNER JOIN artists ON track_artists.artist_id = artists.id
+  --   WHERE tracks.id = 9900000;
