@@ -2,9 +2,14 @@ import http from "k6/http";
 import { check, sleep } from "k6";
 
 export let options = {
-  vus: 150,
-  duration: "30s",
-  rps: 4000
+  stages: [
+    { duration: "10s", target: 10, rps: 1},
+    { duration: "10s", target: 10, rps: 10 },
+    { duration: "10s", target: 10, rps: 100 },
+    { duration: "10s", target: 10, rps: 1000 },
+    { duration: "10s", target: 50, rps: 1200 },
+    { duration: "10s", target: 100, rps: 1400 }
+  ]
 };
 
 export default function() {

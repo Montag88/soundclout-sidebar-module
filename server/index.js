@@ -19,7 +19,7 @@ app.get('/api/tracks', (req, res) => {
     var trackid = Math.floor(Math.random() * 10000000 + 1);
     neo.getTrackInfo(trackid, (err, data) => {
         if(err) {
-            console.log(err);
+            // console.log(err);
             res.sendStatus(404);
         }
         res.json(data);
