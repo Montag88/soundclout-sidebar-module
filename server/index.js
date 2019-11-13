@@ -1,3 +1,5 @@
+require('newrelic');
+
 const express  = require('express');
 const bodyparser = require('body-parser');
 // const db = require('../database/index.js');

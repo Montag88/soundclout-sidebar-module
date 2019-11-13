@@ -6,30 +6,30 @@ const getTrackInfo = (trackid, callback) => {
 
   var query = 'MATCH (t:Tracks {id: toInteger($trackid)})<-[likes:LIKED]-(user:Users) RETURN COUNT(likes) AS likes';
   var queryParams = {trackid: trackid};
-  session
-    .run(query, queryParams)
-    .then(result => {
-      // console.log('RESULT', result);
-      // console.log('RECORDS', result.records);
-      // result.records.forEach(record => {
-        // console.log(record.get('name'))
-      // })
-      callback(null, neo4j.integer.toNumber(result.records[0].get('likes')));
-    })
-    .catch(error => {console.log(error)})
-    .then(() => session.close())
+  // session
+  //   .run(query, queryParams)
+  //   .then(result => {
+  //     // console.log('RESULT', result);
+  //     // console.log('RECORDS', result.records);
+  //     // result.records.forEach(record => {
+  //       // console.log(record.get('name'))
+  //     // })
+  //     callback(null, neo4j.integer.toNumber(result.records[0].get('likes')));
+  //   })
+  //   .catch(error => {console.log(error)})
+  //   .then(() => session.close())
 
 
-  // readNeo4j(query, queryParams, callback);
+  readNeo4j(query, queryParams, callback);
 };
 
 function readNeo4j(query, queryParams, callback) {
-  var readTxPromise = session.readTransaction(
+  var readTxPromise = session.read.readTransaction(
     (tx) => {return tx.run(query, queryParams)}
   )
   readTxPromise
     .then((result) => {
-      session.close();
+      session.read.close();
       // this will have to be modified to return many results
       var singleRecord = result.records[0];
       // console.log('RESULT RECORDS', singleRecord);
@@ -39,18 +39,18 @@ function readNeo4j(query, queryParams, callback) {
       callback(null, x);
     })
     .catch(error => {
-        console.log('ERROR: ', error)
-        // callback(error);
-      })
+      console.log('ERROR: ', error)
+      // callback(error);
+    })
 };
 
 function writeNeo4j(query, queryParams, callback) {
-  var writeTxPromise = session.writeTransaction(
+  var writeTxPromise = session.write.writeTransaction(
     (tx) => {tx.run(query, queryParams)}
   )
   writeTxPromise
     .then(result => {
-      session.close();
+      session.write.close();
       if (result) {
         console.log(result);
         callback(null, result);
