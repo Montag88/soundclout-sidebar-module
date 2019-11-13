@@ -21,6 +21,7 @@ class App extends React.Component {
     }
 
     componentDidMount () {
+        // axios get track
         axios.get('http://ec2-18-224-181-241.us-east-2.compute.amazonaws.com:3131/userinfo')
             .then( (data) => {
                 var array = [];
