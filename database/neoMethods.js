@@ -5,20 +5,26 @@ var neo4j = require('neo4j-driver').v1;
 const getTrackInfo = (trackid, callback) => {
   // console.log('trackid', trackid);
 
-  var query =
+  // var query =
+  //   `
+  //     MATCH (t:Tracks {id: $trackid})<-[likes:LIKED]-(user:Users)
+  //     RETURN COUNT(likes) AS likes
+  //   `;
+  // var query = 
+  //   `
+  //     MATCH (t:Tracks {id: $trackid})
+  //     RETURN t, SIZE((:Users)-[:LIKED]->(t)) AS likes, SIZE((:Users)-[:REPOSTED]->(t)) AS reposts
+  //   `;
+
+  var query = 
     `
-      MATCH (t:Tracks {id: toInteger($trackid)})<-[likes:LIKED]-(user:Users)
-      RETURN COUNT(likes) AS likes
+      MATCH (t:Tracks {id: 2131})<-[:SINGS]-(a:Artists), (t)-[:IS_GENRE]->(g:Genres)
+      RETURN a AS artist, COLLECT(g.type) AS genre 
     `;
   var queryParams = {trackid: trackid};
   // session
   //   .run(query, queryParams)
   //   .then(result => {
-  //     // console.log('RESULT', result);
-  //     // console.log('RECORDS', result.records);
-  //     // result.records.forEach(record => {
-  //       // console.log(record.get('name'))
-  //     // })
   //     callback(null, neo4j.integer.toNumber(result.records[0].get('likes')));
   //   })
   //   .catch(error => {console.log(error)})
@@ -36,19 +42,17 @@ function readNeo4j(query, queryParams, callback) {
   )
   readTxPromise
     .then(result => {
-      // this will have to be modified to return many results
-      // var singleRecord = result.records[0];
-      // console.log('RESULT RECORDS', singleRecord);
-      // console.log('singlerecord',singleRecord.get('likes'));
-      // var x = neo4j.integer.toNumber(singleRecord.get('likes'));
-      // console.log('x',arguments);
-      callback(null, neo4j.integer.toNumber(result.records[0].get('likes')));
+      // console.log('RESULT RECORDS FROM PROM: ', result.records[0].get('likes'));
+      var artist = neo4j.integer.toNumber(result.records[0].get('artist'));
+      var genre = neo4j.integer.toNumber(result.records[0].get('genre'));
+
+      callback(null, {artist, genre});
     })
     .catch(error => {
       console.log('ERROR: ', error)
       // callback(error);
     })
-    // .then(() => session.read.close())
+    .then(() => session.close())
 };
 
 function writeNeo4j(query, queryParams, callback) {

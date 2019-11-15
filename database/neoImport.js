@@ -1,4 +1,5 @@
-const session = require('./neoIndex.js');
+const driver = require('./neoIndex.js');
+var session = driver.session();
 
 function queryNeo4j(query, info) {
   session

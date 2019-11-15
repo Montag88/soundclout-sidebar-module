@@ -3,3 +3,5 @@
 *.csv
 
 package-lock.json
+
+*.log
