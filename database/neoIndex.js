@@ -2,7 +2,7 @@ var neo4j = require('neo4j-driver').v1;
 // Create a driver instance, for the user neo4j with password neo4j.
 // It should be enough to have a single driver per database per application.
 var driver = neo4j.driver(
-  'bolt://localhost',
+  'bolt://52.53.199.151/',
   neo4j.auth.basic('neo4j','neo'),
   { 
     maxTransactionRetryTime: 30000,
