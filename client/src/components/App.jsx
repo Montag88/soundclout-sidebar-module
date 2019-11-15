@@ -15,17 +15,21 @@ class App extends React.Component {
         this.onClickLikes = this.onClickLikes.bind(this);
         this.onClickProfiles = this.onClickProfiles.bind(this);
         this.countRelatedTracksLikes = this.countRelatedTracksLikes.bind(this);
-
     }
 
     componentDidMount () {
         axios.get('http://localhost:3500/api/tracks')
-            .then(data => {
-                console.log(data.data);
-                if(data.data === 1) {
-                    this.setState({likeWord: 'like'})
-                }
-                this.setState({likes: data.data});
+            .then(response => {
+                var imageArray = [];
+                
+                response.data.artists.map(a => {
+                    imageArray.push({user_picture_url: a.image_url})
+                })
+                this.setState({userPictures: imageArray})
+                // if(data.data === 1) {
+                //     this.setState({likeWord: 'like'})
+                // }
+                // this.setState({likes: data.data});
             })
 
         // axios get track

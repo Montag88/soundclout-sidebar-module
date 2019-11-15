@@ -18,7 +18,7 @@ const getTrackInfo = (trackid, callback) => {
 
   var query = 
     `
-      MATCH (t:Tracks {id: 2131})<-[:SINGS]-(a:Artists), (t)-[:IS_GENRE]->(g:Genres)
+      MATCH (t:Tracks {id: $trackid})<-[:SINGS]-(a:Artists), (t)-[:IS_GENRE]->(g:Genres)
       RETURN a AS artist, COLLECT(g.type) AS genre 
     `;
   var queryParams = {trackid: trackid};
@@ -42,11 +42,24 @@ function readNeo4j(query, queryParams, callback) {
   )
   readTxPromise
     .then(result => {
-      // console.log('RESULT RECORDS FROM PROM: ', result.records[0].get('likes'));
-      var artist = neo4j.integer.toNumber(result.records[0].get('artist'));
-      var genre = neo4j.integer.toNumber(result.records[0].get('genre'));
+      // console.log('RESULT RECORDS FROM PROM: ', result.records[0].get('artist').properties);
+      // var artist = neo4j.integer.toNumber(result.records[0].get('artist'));
 
-      callback(null, {artist, genre});
+      var artists = [];
+      var records = result.records;
+      records.map((r) => {
+        var currentArtist = r.get('artist').properties;
+        var name = currentArtist.name;
+        var location = currentArtist.location;
+        var id = neo4j.integer.toNumber(currentArtist.id);
+        var followers = neo4j.integer.toNumber(currentArtist.followers);
+        var image_url = currentArtist.image_url;
+        artists.push({name, location, id, followers, image_url})
+      })
+
+      var genres = records[0].get('genre');
+
+      callback(null, {artists, genres});
     })
     .catch(error => {
       console.log('ERROR: ', error)
