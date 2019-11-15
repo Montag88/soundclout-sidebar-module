@@ -18,7 +18,7 @@ class App extends React.Component {
     }
 
     componentDidMount () {
-        axios.get('http://52.8.138.100/:3500/api/tracks')
+        axios.get('http://52.8.138.100:3500/api/tracks')
             .then(response => {
                 var imageArray = [];
                 
